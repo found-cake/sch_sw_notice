@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    ports:
+      - "3306:3306"
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium-container
+    environment:
+      - TZ=Asia/Seoul
+
+  java:
+    image: eclipse-temurin:17
+    container_name: java-app-container
+    restart: on-failure
+    working_dir: /app
+    volumes:
+      - ./build/libs:/app
+    environment:
+      - TZ=Asia/Seoul
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DISCORD_TOKEN=${BOT_TOKEN}
+    command: ["java", "-jar", "SchNoticeBot.jar"]
+    depends_on:
+      - mysql
+      - selenium
+
