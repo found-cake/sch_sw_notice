@@ -14,8 +14,7 @@ abstract class Page {
 		return Notice(
 			title = a.text,
 			url = a.getAttribute("href"),
-			author = tr.findElement(By.className("writer")).text,
-			date = tr.findElement(By.className("date")).text
+			author = tr.findElement(By.className("writer")).text
 		)
 	}
 }

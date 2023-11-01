@@ -24,6 +24,8 @@ fun main() {
 	}
 
 	jda.awaitReady()
+
+	DBManager.close()
 }
 
 fun settingDB() {
