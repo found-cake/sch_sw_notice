@@ -32,8 +32,8 @@ class ChannelDB(conn: Connection) {
 		"DELETE FROM `channel_db` WHERE `serverId`=?"
 	)
 
-	fun removeChannel(serverId: String) {
+	fun removeChannel(serverId: String): Boolean {
 		removeChannelStmt.setString(1, serverId)
-		removeChannelStmt.execute()
+		return removeChannelStmt.execute()
 	}
 }

@@ -8,7 +8,7 @@ object SwPage: Page() {
 
 	override fun url() = "https://home.sch.ac.kr/sw/07/010000.jsp?mode=list&board_no=20211209192056245082&pager.offset="
 
-	private fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement> {
+	 override fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement> {
 		driver.get(createUrl(page))
 		val tbody: WebElement = driver.findElement(By.xpath("//*[@id=\"sub_board\"]/div/div[1]/table/tbody"))
 		return tbody.findElements(By.tagName("tr"))

@@ -1,6 +1,7 @@
 package kr.foundcake.sch_sw_notice
 
 import kr.foundcake.sch_sw_notice.crawling.MainPage
+import kr.foundcake.sch_sw_notice.crawling.SwPage
 import kr.foundcake.sch_sw_notice.database.DBManager
 import kr.foundcake.sch_sw_notice.listener.EventListener
 import kr.foundcake.sch_sw_notice.scheduler.Scheduler
@@ -18,9 +19,14 @@ fun main() {
 
 	val jda: JDA = runBot()
 
-	Scheduler.registerDaily {
-		MainPage.getBigAlert(it).forEach { println(it) }
-		MainPage.getNewAlert(it)
+	Scheduler.registerDaily { driver ->
+		MainPage.getBigAlert(driver).forEach { notice ->
+			DBManager.notice.addNotice(notice)
+			DBManager.notice.fetchStatus()
+			DBManager.notice.removeNotice()
+		}
+		MainPage.getNewAlert(driver).forEach { notice -> println(notice) }
+		SwPage.getNewAlert(driver).forEach{ notice ->  println(notice) }
 	}
 
 	jda.awaitReady()
