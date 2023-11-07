@@ -20,18 +20,13 @@ fun main() {
 	val jda: JDA = runBot()
 
 	Scheduler.registerDaily { driver ->
-		MainPage.getBigAlert(driver).forEach { notice ->
-			DBManager.notice.addNotice(notice)
-			DBManager.notice.fetchStatus()
-			DBManager.notice.removeNotice()
-		}
+		MainPage.getBigAlert(driver).forEach { DBManager.notice.addNotice(it) }
+		DBManager.notice.fetchStatus()
+		DBManager.notice.removeNotice()
 		MainPage.getNewAlert(driver).forEach { notice -> println(notice) }
 		SwPage.getNewAlert(driver).forEach{ notice ->  println(notice) }
 	}
-
 	jda.awaitReady()
-
-	DBManager.close()
 }
 
 fun settingDB() {
@@ -56,7 +51,7 @@ fun runBot() : JDA {
 	jda.updateCommands().addCommands(
 		Commands.slash("중요공지", "고정된 공지들을 출력합니다."),
 		Commands.slash("채널설정", "최신 공지들을 출력할 채널을 설정합니다.")
-			.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
+			.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
 			.addOption(OptionType.CHANNEL, "채널","지정할 채널", true)
 	).queue()
 

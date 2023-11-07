@@ -20,14 +20,14 @@ object Scheduler {
 	private val scheduler: ScheduledExecutorService = Executors.newScheduledThreadPool(1)
 
 	/**
-	 * 매일 오후 6시에 실행시킬 task 등록
+	 * 매일 오후 8시에 실행시킬 task 등록
 	 *
 	 * @param worker
 	 * @receiver
 	 */
 	fun registerDaily(worker: ((WebDriver) -> Unit)) {
 		val calendar = Calendar.getInstance()
-		calendar.set(Calendar.HOUR_OF_DAY, 18)
+		calendar.set(Calendar.HOUR_OF_DAY, 20)
 		calendar.set(Calendar.MINUTE, 0)
 		calendar.set(Calendar.SECOND, 0)
 
