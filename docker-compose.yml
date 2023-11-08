@@ -10,7 +10,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
     ports:
-      - "3306:3306"
+      - "3306"
 
   selenium:
     image: selenium/standalone-chrome:latest

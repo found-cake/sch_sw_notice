@@ -4,6 +4,7 @@ import kr.foundcake.sch_sw_notice.crawling.MainPage
 import kr.foundcake.sch_sw_notice.crawling.SwPage
 import kr.foundcake.sch_sw_notice.database.DBManager
 import kr.foundcake.sch_sw_notice.listener.EventListener
+import kr.foundcake.sch_sw_notice.notice.NoticeService
 import kr.foundcake.sch_sw_notice.scheduler.Scheduler
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -20,11 +21,14 @@ fun main() {
 	val jda: JDA = runBot()
 
 	Scheduler.registerDaily { driver ->
-		MainPage.getBigAlert(driver).forEach { DBManager.notice.addNotice(it) }
+		MainPage.getBigNotices(driver).forEach { DBManager.notice.addNotice(it) }
 		DBManager.notice.fetchStatus()
 		DBManager.notice.removeNotice()
-		MainPage.getNewAlert(driver).forEach { notice -> println(notice) }
-		SwPage.getNewAlert(driver).forEach{ notice ->  println(notice) }
+		NoticeService.sendNotice(
+			jda,
+			MainPage.getNewNotices(driver),
+			SwPage.getNewNotices(driver)
+		)
 	}
 	jda.awaitReady()
 }

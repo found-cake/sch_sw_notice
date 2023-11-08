@@ -5,6 +5,8 @@ import org.openqa.selenium.By
 import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.WebDriverWait
+import java.time.Duration
 
 abstract class Page {
 	protected abstract fun url(): String
@@ -20,9 +22,19 @@ abstract class Page {
 		)
 	}
 
-	protected abstract fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement>
+	protected abstract fun xpath() : String
 
-	fun getNewAlert(driver: WebDriver, page: Int = 1) : MutableList<Notice> {
+	protected fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement> {
+		driver.get(createUrl(page))
+		val wait = WebDriverWait(driver, Duration.ofSeconds(10))
+		var tbody: WebElement? = null
+		wait.until {
+			tbody =  it.findElement(By.xpath(xpath()))
+		}
+		return tbody?.findElements(By.tagName("tr")) ?: mutableListOf()
+	}
+
+	fun getNewNotices(driver: WebDriver, page: Int = 1) : MutableList<Notice> {
 		val list: MutableList<Notice> = mutableListOf()
 		var needNext = true
 		getTbody(driver, page).forEach {
@@ -35,7 +47,7 @@ abstract class Page {
 			}
 		}
 		if(needNext) {
-			list += getNewAlert(driver, page + 1)
+			list += getNewNotices(driver, page + 1)
 		}
 		return list
 	}
