@@ -11,7 +11,7 @@ import java.time.Duration
 abstract class Page {
 	protected abstract fun url(): String
 
-	protected fun createUrl(page: Int) : String = "${url()}${(page - 1) * 10}"
+	private fun createUrl(page: Int) : String = "${url()}${(page - 1) * 10}"
 
 	protected fun elementParser(tr: WebElement) : Notice {
 		val a: WebElement = tr.findElement(By.tagName("a"))
@@ -25,13 +25,12 @@ abstract class Page {
 	protected abstract fun xpath() : String
 
 	protected fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement> {
-		driver.get(createUrl(page))
 		val wait = WebDriverWait(driver, Duration.ofSeconds(10))
-		var tbody: WebElement? = null
 		wait.until {
-			tbody =  it.findElement(By.xpath(xpath()))
+			it.get(createUrl(page))
 		}
-		return tbody?.findElements(By.tagName("tr")) ?: mutableListOf()
+		val tbody: WebElement =  driver.findElement(By.xpath(xpath()))
+		return tbody.findElements(By.tagName("tr"))
 	}
 
 	fun getNewNotices(driver: WebDriver, page: Int = 1) : MutableList<Notice> {
