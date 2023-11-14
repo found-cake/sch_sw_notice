@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.channel.Channel
 import net.dv8tion.jda.api.entities.channel.ChannelType
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.events.session.ShutdownEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -54,7 +55,11 @@ class EventListener: ListenerAdapter() {
 	}
 
 	override fun onChannelDelete(event: ChannelDeleteEvent) {
-		scope.launch { DBManager.channel.removeChannel(event.guild.idLong) }
+		scope.launch { DBManager.channel.removeChannelByChannelId(event.guild.idLong, event.channel.idLong) }
+	}
+
+	override fun onGuildLeave(event: GuildLeaveEvent) {
+		scope.launch { DBManager.channel.removeChannelByServerId(event.guild.idLong) }
 	}
 
 	override fun onShutdown(event: ShutdownEvent) {

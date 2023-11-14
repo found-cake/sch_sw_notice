@@ -1,9 +1,11 @@
 version: "3.8"
 
+name: sch_sw_uni_dev
+
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql-container
+    container_name: mysql-container-dev
     restart: unless-stopped
     environment:
       - TZ=Asia/Seoul
@@ -14,13 +16,13 @@ services:
 
   selenium:
     image: selenium/standalone-chrome:latest
-    container_name: selenium-container
+    container_name: selenium-container-dev
     environment:
       - TZ=Asia/Seoul
 
   java:
     image: eclipse-temurin:17
-    container_name: java-app-container
+    container_name: java-app-container-dev
     restart: on-failure
     working_dir: /app
     volumes:

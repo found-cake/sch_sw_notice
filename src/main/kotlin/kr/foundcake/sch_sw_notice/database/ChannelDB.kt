@@ -29,13 +29,23 @@ class ChannelDB(conn: Connection) {
 		return registerChannelStmt.execute()
 	}
 
-	private val removeChannelStmt: PreparedStatement = conn.prepareStatement(
+	private val removeChannelByServerIdStmt: PreparedStatement = conn.prepareStatement(
 		"DELETE FROM `channel_db` WHERE `serverId`=?"
 	)
 
-	fun removeChannel(serverId: Long): Boolean {
-		removeChannelStmt.setLong(1, serverId)
-		return removeChannelStmt.execute()
+	fun removeChannelByServerId(serverId: Long): Boolean {
+		removeChannelByServerIdStmt.setLong(1, serverId)
+		return removeChannelByServerIdStmt.execute()
+	}
+
+	private val removeChannelByChannelIdStmt: PreparedStatement = conn.prepareStatement(
+		"DELETE FROM `channel_db` WHERE `serverId`=? and `channelId`=?"
+	)
+
+	fun removeChannelByChannelId(serverId: Long, channelId: Long) : Boolean{
+		removeChannelByChannelIdStmt.setLong(1, serverId)
+		removeChannelByChannelIdStmt.setLong(2, channelId)
+		return removeChannelByChannelIdStmt.execute()
 	}
 
 	private val getChannelsStmt: PreparedStatement = conn.prepareStatement(

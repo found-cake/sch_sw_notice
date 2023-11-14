@@ -48,7 +48,7 @@ object NoticeService {
 			val channelId: Long = it.second
 			val channel: GuildChannel? = jda.getGuildChannelById(channelId)
 			if(channel === null || channel !is TextChannel) {
-				DBManager.channel.removeChannel(serverId)
+				DBManager.channel.removeChannelByServerId(serverId)
 				return@forEach
 			}
 			if(mainList.isNotEmpty()) {

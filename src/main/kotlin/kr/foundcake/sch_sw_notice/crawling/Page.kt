@@ -22,6 +22,15 @@ abstract class Page {
 		)
 	}
 
+	protected fun elementParserRemoveNew(tr: WebElement) : Notice {
+		val a: WebElement = tr.findElement(By.tagName("a"))
+		return Notice(
+			title = a.text.substring(0, a.text.length - 4),
+			url = a.getAttribute("href"),
+			author = tr.findElement(By.className("writer")).text
+		)
+	}
+
 	protected abstract fun xpath() : String
 
 	protected fun getTbody(driver: WebDriver, page: Int) : MutableList<WebElement> {
@@ -39,7 +48,7 @@ abstract class Page {
 		getTbody(driver, page).forEach {
 			try {
 				it.findElement(By.className("new"))
-				list.add(elementParser(it))
+				list.add(elementParserRemoveNew(it))
 			} catch (e: NoSuchElementException) {
 				needNext = false
 				return@forEach
