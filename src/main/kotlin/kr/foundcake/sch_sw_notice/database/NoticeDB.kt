@@ -28,10 +28,12 @@ class NoticeDB(conn: Connection) {
 	)
 
 	fun addNotice(notice: Notice) : Boolean {
-		addNoticeStmt.setString(1, notice.title)
-		addNoticeStmt.setString(2, notice.url)
-		addNoticeStmt.setString(3, notice.author)
-		return addNoticeStmt.execute()
+		synchronized(addNoticeStmt) {
+			addNoticeStmt.setString(1, notice.title)
+			addNoticeStmt.setString(2, notice.url)
+			addNoticeStmt.setString(3, notice.author)
+			return addNoticeStmt.execute()
+		}
 	}
 
 	private val removeNoticeStmt: PreparedStatement = conn.prepareStatement(

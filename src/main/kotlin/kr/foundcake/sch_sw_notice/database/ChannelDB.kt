@@ -23,10 +23,12 @@ class ChannelDB(conn: Connection) {
 	)
 
 	fun registerChannel(serverId: Long, channelId: Long) : Boolean{
-		registerChannelStmt.setLong(1, serverId)
-		registerChannelStmt.setLong(2, channelId)
-		registerChannelStmt.setLong(3, channelId)
-		return registerChannelStmt.execute()
+		synchronized(registerChannelStmt) {
+			registerChannelStmt.setLong(1, serverId)
+			registerChannelStmt.setLong(2, channelId)
+			registerChannelStmt.setLong(3, channelId)
+			return registerChannelStmt.execute()
+		}
 	}
 
 	private val removeChannelByServerIdStmt: PreparedStatement = conn.prepareStatement(
@@ -34,8 +36,10 @@ class ChannelDB(conn: Connection) {
 	)
 
 	fun removeChannelByServerId(serverId: Long): Boolean {
-		removeChannelByServerIdStmt.setLong(1, serverId)
-		return removeChannelByServerIdStmt.execute()
+		synchronized(removeChannelByServerIdStmt) {
+			removeChannelByServerIdStmt.setLong(1, serverId)
+			return removeChannelByServerIdStmt.execute()
+		}
 	}
 
 	private val removeChannelByChannelIdStmt: PreparedStatement = conn.prepareStatement(
@@ -43,9 +47,11 @@ class ChannelDB(conn: Connection) {
 	)
 
 	fun removeChannelByChannelId(serverId: Long, channelId: Long) : Boolean{
-		removeChannelByChannelIdStmt.setLong(1, serverId)
-		removeChannelByChannelIdStmt.setLong(2, channelId)
-		return removeChannelByChannelIdStmt.execute()
+		synchronized(removeChannelByChannelIdStmt) {
+			removeChannelByChannelIdStmt.setLong(1, serverId)
+			removeChannelByChannelIdStmt.setLong(2, channelId)
+			return removeChannelByChannelIdStmt.execute()
+		}
 	}
 
 	private val getChannelsStmt: PreparedStatement = conn.prepareStatement(
