@@ -17,8 +17,11 @@ services:
   selenium:
     image: selenium/standalone-chrome:latest
     container_name: selenium-container-dev
+    shm_size: 2g
     environment:
       - TZ=Asia/Seoul
+    ports:
+      - "4444:4444"
 
   java:
     image: eclipse-temurin:17
