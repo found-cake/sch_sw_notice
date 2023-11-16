@@ -57,7 +57,7 @@ fun runBot() : JDA {
 		Commands.slash("채널설정", "최신 공지들을 출력할 채널을 설정합니다.")
 			.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
 			.addOption(OptionType.CHANNEL, "채널","지정할 채널", true),
-		Commands.slash("SW공지설정", "순천향대학교 SW 중심 대학 산업단 공지를 출력할지 설정합니다.")
+		Commands.slash("sw공지설정", "순천향대학교 SW 중심 대학 산업단 공지를 출력할지 설정합니다.")
 			.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
 			.addOption(OptionType.BOOLEAN, "toggle", "없을 경우 현재 설정에서 반대가 기본값입니다."),
 		Commands.slash("공지색상설정", "공지 Embed 색상을 설정 합니다.")
