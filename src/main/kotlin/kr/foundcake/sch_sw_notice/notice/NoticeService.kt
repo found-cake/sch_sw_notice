@@ -52,12 +52,12 @@ object NoticeService {
 				return@forEach
 			}
 			if(mainList.isNotEmpty()) {
-				channel.sendMessage("# 포털공지")
+				channel.sendMessage("# 포털 공지")
 					.setEmbeds(mainList)
 					.queue()
 			}
 			if(swList.isNotEmpty()) {
-				channel.sendMessage("# SW융합대학공지")
+				channel.sendMessage("# SW중심대학산업단 공지")
 					.setEmbeds(swList)
 					.queue()
 			}

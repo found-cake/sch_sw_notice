@@ -4,6 +4,7 @@ import kr.foundcake.sch_sw_notice.notice.Notice
 import org.openqa.selenium.By
 import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.WebDriver
+
 object MainPage: Page(){
 
 	override fun url() = "https://home.sch.ac.kr/sch/06/010100.jsp?mode=list&board_no=20090723152156588979&pager.offset="
