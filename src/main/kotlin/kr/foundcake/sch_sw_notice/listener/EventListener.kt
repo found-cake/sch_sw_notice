@@ -52,7 +52,7 @@ class EventListener: ListenerAdapter() {
 					event.reply("채널 설정이 완료되었습니다.").queue()
 				}
 			}
-			"SW공지설정" -> event.reply("아직 준비중입니다.")
+			"sw공지설정" -> event.reply("아직 준비중입니다.")
 				.setEphemeral(true).queue()
 			"공지색상설정" -> event.reply("아직 준비중입니다.")
 				.setEphemeral(true).queue()
